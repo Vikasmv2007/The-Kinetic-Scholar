@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Lexend', sans-serif;
+            background-color: #f6f6f6;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hard-shadow {
+            box-shadow: 4px 4px 0px 0px #0c0f0f;
+        }
+        .hard-shadow-hover:hover {
+            box-shadow: 8px 8px 0px 0px #0c0f0f;
+            transform: translate(-2px, -2px);
+        }
+        .hard-shadow-active:active {
+            box-shadow: 0px 0px 0px 0px #0c0f0f;
+            transform: translate(4px, 4px);
+        }
+        .nav-active {
+            background: #ebf500 !important;
+            color: #0c0f0f !important;
+            border: 2px solid #0c0f0f !important;
+            box-shadow: 2px 2px 0 #0c0f0f !important;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-high": "#e1e3e3",
+                        "secondary": "#b60055",
+                        "on-surface": "#2d2f2f",
+                        "tertiary": "#006571",
+                        "tertiary-container": "#00e3fd",
+                        "on-error": "#ffefec",
+                        "secondary-fixed-dim": "#ffadc0",
+                        "inverse-primary": "#f3fe00",
+                        "outline": "#767777",
+                        "surface": "#f6f6f6",
+                        "secondary-fixed": "#ffc1ce",
+                        "error-container": "#f95630",
+                        "on-background": "#2d2f2f",
+                        "secondary-dim": "#a0004a",
+                        "on-tertiary-fixed": "#003840",
+                        "on-primary-fixed": "#444800",
+                        "on-tertiary": "#d8f8ff",
+                        "tertiary-fixed": "#00e3fd",
+                        "surface-container": "#e7e8e8",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#004d57",
+                        "secondary-container": "#ffc1ce",
+                        "surface-container-low": "#f0f1f1",
+                        "surface-bright": "#f6f6f6",
+                        "on-primary-fixed-variant": "#616500",
+                        "primary-fixed-dim": "#dce600",
+                        "inverse-on-surface": "#9c9d9d",
+                        "background": "#f6f6f6",
+                        "tertiary-dim": "#005863",
+                        "inverse-surface": "#0c0f0f",
+                        "surface-variant": "#dbdddd",
+                        "on-secondary-fixed": "#6d0030",
+                        "on-surface-variant": "#5a5c5c",
+                        "on-primary-container": "#575b00",
+                        "surface-tint": "#5b6000",
+                        "on-error-container": "#520c00",
+                        "surface-dim": "#d3d5d5",
+                        "on-secondary-container": "#900042",
+                        "primary-container": "#ebf500",
+                        "on-primary": "#f2fd00",
+                        "on-secondary": "#ffeff1",
+                        "tertiary-fixed-dim": "#00d4ec",
+                        "outline-variant": "#acadad",
+                        "surface-container-highest": "#dbdddd",
+                        "on-tertiary-fixed-variant": "#005762",
+                        "on-secondary-fixed-variant": "#a1004b",
+                        "primary-fixed": "#ebf500",
+                        "primary": "#5b6000",
+                        "error-dim": "#b92902",
+                        "error": "#b02500",
+                        "primary-dim": "#4f5300"
+                    },
+                    fontFamily: {
+                        "headline": ["Lexend"],
+                        "body": ["Lexend"],
+                        "label": ["Lexend"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-20 bg-[#f6f6f6] dark:bg-[#0c0f0f] border-b-4 border-[#0c0f0f] shadow-[4px_4px_0px_0px_#0c0f0f]">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#ebf500] text-3xl" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<h1 class="font-['Lexend'] font-extrabold uppercase tracking-tighter text-2xl font-black text-[#2d2f2f] dark:text-[#f6f6f6]">KINETIC SCHOLAR</h1>
+</div>
+<div class="relative">
+<button id="profileBtn" class="w-12 h-12 border-4 border-[#0c0f0f] bg-secondary shadow-[2px_2px_0px_0px_#0c0f0f] flex items-center justify-center hover:translate-x-0.5 hover:translate-y-0.5 transition-transform">
+<span class="material-symbols-outlined text-surface" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+</button>
+
+<!-- Profile Dropdown -->
+<div id="profileDropdown" class="hidden absolute top-14 right-0 w-64 bg-surface border-4 border-inverse-surface shadow-[4px_4px_0px_0px_#0c0f0f] z-40">
+  <div class="p-4 border-b-4 border-inverse-surface bg-primary-container">
+    <p class="text-xs font-black uppercase tracking-widest opacity-70" data-menu="profile-status">Not logged in</p>
+    <h3 class="text-lg font-black uppercase" data-menu="username">Guest</h3>
+  </div>
+  
+  <div class="divide-y-4 divide-inverse-surface">
+    <button id="loginBtn" data-action="login" class="w-full p-4 text-left font-black uppercase hover:bg-surface-container transition-colors flex items-center gap-2">
+      <span class="material-symbols-outlined text-sm">login</span>
+      Login
+    </button>
+    
+    <button data-action="edit" class="w-full p-4 text-left font-black uppercase hover:bg-surface-container transition-colors flex items-center gap-2 hidden">
+      <span class="material-symbols-outlined text-sm">edit</span>
+      Edit Profile
+    </button>
+    
+    <button data-action="reset" class="w-full p-4 text-left font-black uppercase hover:bg-surface-container transition-colors flex items-center gap-2 hidden">
+      <span class="material-symbols-outlined text-sm">restart_alt</span>
+      Reset Profile
+    </button>
+    
+    <button data-action="logout" class="w-full p-4 text-left font-black uppercase text-error hover:bg-error-container transition-colors flex items-center gap-2 hidden">
+      <span class="material-symbols-outlined text-sm">logout</span>
+      Logout
+    </button>
+  </div>
+</div>
+</div>
+</header>
+<main class="pt-28 pb-32 px-6 max-w-5xl mx-auto">
+<!-- Search Bar Section -->
+<section class="mb-12">
+<div class="relative group">
+<div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-inverse-surface text-2xl">search</span>
+</div>
+<input class="w-full h-16 bg-surface-container-lowest border-4 border-inverse-surface pl-14 pr-6 text-xl font-bold placeholder:text-outline focus:ring-0 focus:outline-none focus:bg-tertiary-fixed hard-shadow transition-all duration-75" placeholder="FIND A SUBJECT..." type="text"/>
+</div>
+</section>
+<!-- Target Subjects Header -->
+<div class="flex items-center justify-between mb-8">
+<h2 class="text-4xl font-black uppercase tracking-tighter bg-primary-container px-4 py-2 border-4 border-inverse-surface inline-block -rotate-1 hard-shadow">
+                TARGET SUBJECTS
+            </h2>
+</div>
+<!-- Subjects Grid (Bento Style Layout) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+<div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-8" id="targetSubjectsGrid"></div>
+<!-- Add New Subject Button (Card-sized) -->
+<button class="flex flex-col items-center justify-center p-8 border-4 border-dashed border-inverse-surface bg-surface hover:bg-primary-container transition-colors group hard-shadow hard-shadow-active">
+<span class="material-symbols-outlined text-6xl mb-4 group-hover:scale-110 transition-transform">add_circle</span>
+<span class="text-2xl font-black uppercase tracking-tighter">Add New Subject</span>
+</button>
+<!-- Secondary Statistics / Quick Info (Asymmetric Element) -->
+<div class="bg-inverse-surface text-surface p-6 border-4 border-inverse-surface flex flex-col justify-between">
+<div>
+<h4 class="text-xl font-black uppercase mb-4 text-primary-container">Library Stats</h4>
+<div class="space-y-4">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-secondary">local_fire_department</span>
+<span class="font-bold uppercase tracking-widest text-sm">0 DAY STREAK</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-tertiary-fixed">menu_book</span>
+<span class="font-bold uppercase tracking-widest text-sm">0 ACTIVE MODULES</span>
+</div>
+</div>
+</div>
+<div class="mt-8">
+<p class="text-[10px] font-black uppercase tracking-[0.2em] opacity-50">KINETIC ENGINE v2.4</p>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-stretch h-24 bg-[#f6f6f6] dark:bg-[#0c0f0f] border-t-4 border-[#0c0f0f]">
+<a class="flex flex-col items-center justify-center text-[#2d2f2f] dark:text-[#f6f6f6] h-full w-full font-['Lexend'] font-bold text-[12px] tracking-widest hover:bg-[#00e3fd] hover:text-[#0c0f0f] snap-center active:scale-95 transition-all" data-nav="dash" href="Dash.html">
+<span class="material-symbols-outlined mb-1">dashboard</span>
+<span>DASH</span>
+</a>
+<!-- Assuming PLAN is active for the "Library/Subject" context in this flow -->
+<a class="flex flex-col items-center justify-center text-[#2d2f2f] dark:text-[#f6f6f6] h-full w-full font-['Lexend'] font-bold text-[12px] tracking-widest snap-center active:scale-95 transition-all" data-nav="plan" href="Subjects.html">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">event_note</span>
+<span>PLAN</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#2d2f2f] dark:text-[#f6f6f6] h-full w-full font-['Lexend'] font-bold text-[12px] tracking-widest hover:bg-[#00e3fd] hover:text-[#0c0f0f] snap-center active:scale-95 transition-all" data-nav="focus" href="Timer.html">
+<span class="material-symbols-outlined mb-1">timer</span>
+<span>FOCUS</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#2d2f2f] dark:text-[#f6f6f6] h-full w-full font-['Lexend'] font-bold text-[12px] tracking-widest hover:bg-[#00e3fd] hover:text-[#0c0f0f] snap-center active:scale-95 transition-all" data-nav="data" href="Data.html">
+<span class="material-symbols-outlined mb-1">analytics</span>
+<span>DATA</span>
+</a>
+</nav>
+<script src="nav.js"></script>
+<script src="profile.js"></script>
+<script>
+    (function () {
+        const grid = document.getElementById('targetSubjectsGrid');
+        const addButton = document.querySelector('button .material-symbols-outlined')?.closest('button');
+
+        function formatDateLabel(value) {
+            if (!value) {
+                return 'NO DATA YET';
+            }
+            const date = new Date(value);
+            if (Number.isNaN(date.getTime())) {
+                return 'NO DATA YET';
+            }
+            return date.toLocaleDateString();
+        }
+
+        function renderSubjects(subjects) {
+            if (!grid) {
+                return;
+            }
+
+            const rows = Array.isArray(subjects) ? subjects : [];
+            if (!rows.length) {
+                grid.innerHTML = `
+                    <article class="bg-surface-container border-4 border-inverse-surface p-6 hard-shadow md:col-span-2">
+                        <h3 class="text-2xl font-black uppercase leading-tight mb-2">No Subjects Yet</h3>
+                        <p class="text-sm font-bold opacity-70 uppercase tracking-widest">Add subjects from your dashboard profile to populate this tab.</p>
+                    </article>
+                `;
+                return;
+            }
+
+            grid.innerHTML = '';
+            rows.forEach((item, index) => {
+                const percent = Math.max(0, Math.min(100, Math.round(Number(item.progress_percent || 0))));
+                const hours = Number(item.hours_studied || 0).toFixed(1);
+                const card = document.createElement('article');
+                card.className = 'bg-surface-container border-4 border-inverse-surface p-6 hard-shadow hard-shadow-hover transition-all duration-75 relative overflow-hidden group';
+                card.innerHTML = `
+                    <div class="absolute top-0 right-0 p-2 bg-secondary border-b-4 border-l-4 border-inverse-surface text-surface text-xs font-black uppercase tracking-widest">
+                        IMP ${item.importance || 5}
+                    </div>
+                    <div class="mb-4">
+                        <h3 class="text-2xl font-black uppercase leading-tight mb-2">${item.subject || 'Subject'}</h3>
+                        <p class="text-sm font-bold opacity-70 uppercase tracking-widest">LAST STUDIED: ${formatDateLabel(item.last_studied)}</p>
+                    </div>
+                    <div class="mb-6 p-4 border-4 border-inverse-surface bg-surface-container-lowest">
+                        <p class="text-xs font-black uppercase tracking-widest">Hours Studied</p>
+                        <p class="text-3xl font-black">${hours}h</p>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex justify-between font-black text-sm uppercase">
+                            <span>Progress</span>
+                            <span>${percent}%</span>
+                        </div>
+                        <div class="w-full h-8 border-4 border-inverse-surface bg-surface-container-lowest">
+                            <div class="h-full ${index % 2 === 0 ? 'bg-primary-container' : 'bg-tertiary-fixed'} border-r-4 border-inverse-surface" style="width: ${percent}%;"></div>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        async function loadSubjects() {
+            renderSubjects([]);
+            try {
+                const response = await fetch('/api/insights');
+                const payload = await response.json();
+                if (!response.ok) {
+                    throw new Error(payload.error || 'Unable to load target subjects');
+                }
+                renderSubjects(payload.subjects || []);
+            } catch {
+                renderSubjects([]);
+            }
+        }
+
+        if (addButton) {
+            addButton.addEventListener('click', function () {
+                window.location.href = 'Dash.html';
+            });
+        }
+
+        loadSubjects();
+    })();
+</script>
+</body></html>

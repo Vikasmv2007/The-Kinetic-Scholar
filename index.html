@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Kinetic Scholar | Adaptive Study Planner</title>
+    <script>
+        // Redirect to main app
+        window.location.href = 'Dash.html';
+    </script>
+</head>
+<body>
+    <p>Redirecting to The Kinetic Scholar...</p>
+</body>
+</html>
+<body>
+    <div id="splashOverlay" class="splash-overlay" role="dialog" aria-modal="true" aria-labelledby="splashTitle">
+        <div class="splash-card">
+            <p class="splash-kicker">Welcome</p>
+            <h2 id="splashTitle">Set up your study profile</h2>
+            <p class="splash-sub">Add your name and subjects with importance from 1 to 10.</p>
+            <form id="splashForm" class="splash-form">
+                <label class="field-label" for="usernameInput">Username</label>
+                <input id="usernameInput" type="text" placeholder="Your name" required>
+
+                <div id="subjectsImportanceList" class="subjects-importance-list"></div>
+
+                <div class="splash-actions-row">
+                    <button id="addSubjectRowBtn" class="btn" type="button">+ Add subject</button>
+                    <button class="cta-btn" type="submit">Start</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Demo Tour Overlay -->
+    <div id="demoOverlay" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 100; display: flex; align-items: center; justify-content: center; padding: 20px;">
+        <div style="background: white; border: 4px solid #0c0f0f; max-width: 600px; width: 100%; padding: 40px; box-shadow: 8px 8px 0px 0px #0c0f0f; border-radius: 4px;">
+            <h2 style="font-size: 32px; font-weight: 900; margin: 0 0 20px 0; text-transform: uppercase;">Welcome to The Kinetic Scholar</h2>
+            
+            <div style="border-left: 4px solid #ebf500; padding-left: 16px; margin: 24px 0;">
+                <h3 style="margin: 0 0 8px 0; font-weight: 900;">📊 Dashboard</h3>
+                <p style="margin: 0; font-size: 14px; opacity: 0.8;">View your study sessions, streak, and performance stats</p>
+            </div>
+
+            <div style="border-left: 4px solid #00e3fd; padding-left: 16px; margin: 24px 0;">
+                <h3 style="margin: 0 0 8px 0; font-weight: 900;">📋 Plan</h3>
+                <p style="margin: 0; font-size: 14px; opacity: 0.8;">Manage your subjects and track progress on each topic</p>
+            </div>
+
+            <div style="border-left: 4px solid #006571; padding-left: 16px; margin: 24px 0;">
+                <h3 style="margin: 0 0 8px 0; font-weight: 900;">⏱️ Focus</h3>
+                <p style="margin: 0; font-size: 14px; opacity: 0.8;">Pomodoro timer with adaptive study sessions</p>
+            </div>
+
+            <div style="border-left: 4px solid #b60055; padding-left: 16px; margin: 24px 0;">
+                <h3 style="margin: 0 0 8px 0; font-weight: 900;">📈 Data</h3>
+                <p style="margin: 0; font-size: 14px; opacity: 0.8;">Set distribution targets and get AI-powered suggestions</p>
+            </div>
+
+            <button id="startDemoBtn" style="width: 100%; margin-top: 32px; padding: 16px; font-size: 16px; font-weight: 900; text-transform: uppercase; background: #ebf500; border: 4px solid #0c0f0f; cursor: pointer; box-shadow: 4px 4px 0px 0px #0c0f0f; transition: all 0.2s;">
+                Get Started →
+            </button>
+        </div>
+    </div>
+
+    <header class="topbar">
+        <div class="brand-block">
+            <span class="material-symbols-outlined brand-icon">bolt</span>
+            <h1>The Kinetic Scholar</h1>
+        </div>
+        <nav class="desktop-links" aria-label="Main">
+            <a data-nav="dash" href="Dash.html">Dash</a>
+            <a data-nav="plan" href="Subjects.html">Plan</a>
+            <a data-nav="focus" href="Timer.html">Focus</a>
+            <a data-nav="data" href="Data.html">Data</a>
+        </nav>
+        <div style="position: relative;">
+            <button id="profileBtn" class="icon-btn" aria-label="Profile">
+                <span class="material-symbols-outlined">account_circle</span>
+            </button>
+            
+            <!-- Profile Dropdown -->
+            <div id="profileDropdown" style="display: none; position: absolute; top: 50px; right: 0; width: 250px; background: #f6f6f6; border: 3px solid #0c0f0f; box-shadow: 4px 4px 0px 0px #0c0f0f; z-index: 40; border-radius: 4px;">
+              <div style="padding: 12px; border-bottom: 3px solid #0c0f0f; background: #ebf500;">
+                <p style="font-size: 11px; font-weight: 900; letter-spacing: 1px; opacity: 0.7; margin: 0;">Logged in as</p>
+                <h3 style="font-size: 16px; font-weight: 900; text-transform: uppercase; margin: 4px 0 0 0;" data-menu="username">Guest</h3>
+              </div>
+              
+              <div style="border-top: 3px solid #0c0f0f;">
+                <button data-action="edit" style="width: 100%; padding: 12px 16px; text-align: left; font-weight: 900; text-transform: uppercase; border: none; background: transparent; cursor: pointer; border-bottom: 3px solid #0c0f0f; display: flex; align-items: center; gap: 8px;">
+                  <span class="material-symbols-outlined" style="font-size: 18px;">edit</span>
+                  Edit Profile
+                </button>
+                
+                <button data-action="reset" style="width: 100%; padding: 12px 16px; text-align: left; font-weight: 900; text-transform: uppercase; border: none; background: transparent; cursor: pointer; border-bottom: 3px solid #0c0f0f; display: flex; align-items: center; gap: 8px;">
+                  <span class="material-symbols-outlined" style="font-size: 18px;\">restart_alt</span>
+                  Reset Profile
+                </button>
+                
+                <button data-action="logout" style="width: 100%; padding: 12px 16px; text-align: left; font-weight: 900; text-transform: uppercase; border: none; background: transparent; cursor: pointer; color: #b02500; display: flex; align-items: center; gap: 8px;\">
+                  <span class="material-symbols-outlined" style="font-size: 18px;\">logout</span>
+                  Logout
+                </button>
+              </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="app-shell">
+        <section class="hero-banner">
+            <p>Adaptive focus engine active</p>
+            <h2>Plan fast. Study deep. Track momentum.</h2>
+            <p id="usernameDisplay" class="username-display">Learner: -</p>
+        </section>
+
+        <section class="bento-grid">
+            <article class="card timer-card">
+                <p class="section-title">Focus Timer</p>
+                <div class="pomodoro-head">
+                    <div>
+                        <h2 id="timerDisplay">25:00</h2>
+                        <span class="mode-tag" id="sessionTypeBadge">Study</span>
+                    </div>
+                    <div class="circle-wrap">
+                        <div class="circle-ring">
+                            <span id="timerProgressLabel">100%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="momentum-track">
+                    <div id="timerProgress" class="momentum-fill"></div>
+                </div>
+                <div class="timer-actions">
+                    <button id="startBtn" class="btn btn-primary">Start</button>
+                    <button id="pauseBtn" class="btn">Pause</button>
+                    <button id="resetBtn" class="btn btn-danger">Reset</button>
+                </div>
+            </article>
+
+            <article class="card stat-card">
+                <p class="section-title">Live Stats</p>
+                <div class="stat-strip">
+                    <article class="mini-card">
+                        <small>Streak</small>
+                        <strong id="streakValue">0 days</strong>
+                    </article>
+                    <article class="mini-card">
+                        <small>Points</small>
+                        <strong id="pointsValue">0 pts</strong>
+                    </article>
+                    <article class="mini-card">
+                        <small>Focus Prediction</small>
+                        <strong id="predictedFocus">3.0 / 5</strong>
+                    </article>
+                </div>
+            </article>
+
+            <article class="card mission-card">
+                <p class="section-title">Define The Mission</p>
+                <form id="studyForm" class="form-grid">
+                    <label class="field-label" for="subject">Subject</label>
+                    <input type="text" id="subject" placeholder="What are you studying now?" list="subjectsDataList" required>
+                    <datalist id="subjectsDataList"></datalist>
+
+                    <div class="option-grid">
+                        <label class="option-card pink">
+                            <span>Grind</span>
+                            <input type="radio" name="difficultyPreset" value="Hard">
+                        </label>
+                        <label class="option-card green">
+                            <span>Learn</span>
+                            <input type="radio" name="difficultyPreset" value="Medium" checked>
+                        </label>
+                        <label class="option-card yellow">
+                            <span>Power</span>
+                            <input type="radio" name="difficultyPreset" value="Easy">
+                        </label>
+                        <label class="option-card white">
+                            <span>Other</span>
+                            <input type="radio" name="difficultyPreset" value="Medium">
+                        </label>
+                    </div>
+
+                    <div class="priority-panel">
+                        <p>Priority Level</p>
+                        <div class="priority-buttons">
+                            <button type="button" class="priority-btn" data-focus="2">Chill</button>
+                            <button type="button" class="priority-btn active" data-focus="3">Main</button>
+                            <button type="button" class="priority-btn" data-focus="5">Urgent</button>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="difficulty" value="Medium">
+                    <input type="number" id="focusRating" min="1" max="5" value="3" required>
+
+                    <button type="submit" class="cta-btn">Log Session</button>
+                </form>
+            </article>
+
+            <article class="card list-card sessions-card">
+                <p class="section-title">Today's Sessions</p>
+                <ul id="sessionsList" class="stack-list"></ul>
+            </article>
+
+            <article class="card list-card suggestion-card">
+                <p class="section-title">Smart Suggestions</p>
+                <ul id="suggestionsList" class="stack-list"></ul>
+            </article>
+
+            <article class="card list-card plan-card">
+                <p class="section-title">Auto Daily Plan</p>
+                <ul id="dailyPlanList" class="stack-list"></ul>
+            </article>
+        </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Bottom navigation">
+        <a data-nav="dash" href="Dash.html">
+            <span class="material-symbols-outlined">grid_view</span>
+            <span>Dash</span>
+        </a>
+        <a data-nav="plan" href="Subjects.html">
+            <span class="material-symbols-outlined">event_note</span>
+            <span>Plan</span>
+        </a>
+        <a data-nav="focus" href="Timer.html">
+            <span class="material-symbols-outlined">timer</span>
+            <span>Focus</span>
+        </a>
+        <a data-nav="data" href="Data.html">
+            <span class="material-symbols-outlined">analytics</span>
+            <span>Data</span>
+        </a>
+    </nav>
+
+    <script src="profile.js"></script>
+    <script src="script.js"></script>
+    <script src="nav.js"></script>
+</body>
+</html>

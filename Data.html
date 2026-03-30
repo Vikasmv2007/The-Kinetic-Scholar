@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Kinetic Scholar - Efficiency Analytics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary-fixed": "#6d0030",
+              "on-secondary-container": "#900042",
+              "primary": "#5b6000",
+              "tertiary-container": "#00e3fd",
+              "surface-container-high": "#e1e3e3",
+              "on-primary-container": "#575b00",
+              "background": "#f6f6f6",
+              "surface-container": "#e7e8e8",
+              "on-surface-variant": "#5a5c5c",
+              "on-primary-fixed": "#444800",
+              "tertiary-fixed-dim": "#00d4ec",
+              "primary-fixed": "#ebf500",
+              "surface-container-highest": "#dbdddd",
+              "tertiary-fixed": "#00e3fd",
+              "on-background": "#2d2f2f",
+              "surface-dim": "#d3d5d5",
+              "inverse-primary": "#f3fe00",
+              "surface": "#f6f6f6",
+              "primary-fixed-dim": "#dce600",
+              "surface-tint": "#5b6000",
+              "secondary-fixed": "#ffc1ce",
+              "error-container": "#f95630",
+              "on-tertiary-fixed-variant": "#005762",
+              "surface-container-lowest": "#ffffff",
+              "on-secondary": "#ffeff1",
+              "inverse-surface": "#0c0f0f",
+              "surface-variant": "#dbdddd",
+              "tertiary": "#006571",
+              "on-primary-fixed-variant": "#616500",
+              "on-secondary-fixed-variant": "#a1004b",
+              "primary-container": "#ebf500",
+              "on-tertiary-fixed": "#003840",
+              "on-tertiary-container": "#004d57",
+              "on-tertiary": "#d8f8ff",
+              "error-dim": "#b92902",
+              "outline": "#767777",
+              "secondary-container": "#ffc1ce",
+              "error": "#b02500",
+              "on-error": "#ffefec",
+              "inverse-on-surface": "#9c9d9d",
+              "surface-bright": "#f6f6f6",
+              "primary-dim": "#4f5300",
+              "on-primary": "#f2fd00",
+              "outline-variant": "#acadad",
+              "surface-container-low": "#f0f1f1",
+              "on-error-container": "#520c00",
+              "tertiary-dim": "#005863",
+              "secondary": "#b60055",
+              "on-surface": "#2d2f2f",
+              "secondary-fixed-dim": "#ffadc0",
+              "secondary-dim": "#a0004a"
+            },
+            fontFamily: {
+              "headline": ["Lexend"],
+              "body": ["Lexend"],
+              "label": ["Lexend"]
+            },
+            borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Lexend', sans-serif;
+            background-color: #f6f6f6;
+            color: #2d2f2f;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 700, 'GRAD' 0, 'opsz' 48;
+        }
+        .neo-shadow {
+            box-shadow: 4px 4px 0px 0px #0c0f0f;
+        }
+        .neo-shadow-lg {
+            box-shadow: 8px 8px 0px 0px #0c0f0f;
+        }
+        .neo-shadow-active {
+            box-shadow: 0px 0px 0px 0px #0c0f0f;
+            transform: translate(4px, 4px);
+        }
+        .nav-active {
+          background: #ebf500 !important;
+          color: #0c0f0f !important;
+          border: 2px solid #0c0f0f !important;
+          box-shadow: 2px 2px 0 #0c0f0f !important;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen pb-24 pt-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-20 bg-[#f6f6f6] dark:bg-[#0c0f0f] border-b-4 border-[#0c0f0f] shadow-[4px_4px_0px_0px_#0c0f0f]">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#2d2f2f] dark:text-[#f6f6f6] text-3xl">bolt</span>
+<h1 class="font-['Lexend'] font-extrabold tracking-tighter uppercase text-2xl text-[#2d2f2f] dark:text-[#f6f6f6]">The Kinetic Scholar</h1>
+</div>
+<div class="flex items-center gap-4 relative">
+<button id="profileBtn" class="w-12 h-12 border-4 border-[#0c0f0f] bg-secondary shadow-[2px_2px_0px_0px_#0c0f0f] flex items-center justify-center hover:translate-x-0.5 hover:translate-y-0.5 transition-transform">
+<span class="material-symbols-outlined text-surface" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+</button>
+
+<!-- Profile Dropdown -->
+<div id="profileDropdown" class="hidden absolute top-20 right-0 w-64 bg-surface border-4 border-inverse-surface shadow-[4px_4px_0px_0px_#0c0f0f] z-40">
+  <div class="p-4 border-b-4 border-inverse-surface bg-primary-container">
+    <p class="text-xs font-black uppercase tracking-widest opacity-70" data-menu="profile-status">Not logged in</p>
+    <h3 class="text-lg font-black uppercase" data-menu="username">Guest</h3>
+  </div>
+  
+  <div class="divide-y-4 divide-inverse-surface">
+    <button id="loginBtn" data-action="login" class="w-full p-4 text-left font-black uppercase hover:bg-surface-container transition-colors flex items-center gap-2">
+      <span class="material-symbols-outlined text-sm">login</span>
+      Login
+    </button>
+    
+    <button data-action="edit" class="w-full p-4 text-left font-black uppercase hover:bg-surface-container transition-colors flex items-center gap-2 hidden">
+      <span class="material-symbols-outlined text-sm">edit</span>
+      Edit Profile
+    </button>
+    
+    <button data-action="reset" class="w-full p-4 text-left font-black uppercase hover:bg-surface-container transition-colors flex items-center gap-2 hidden">
+      <span class="material-symbols-outlined text-sm">restart_alt</span>
+      Reset Profile
+    </button>
+    
+    <button data-action="logout" class="w-full p-4 text-left font-black uppercase text-error hover:bg-error-container transition-colors flex items-center gap-2 hidden">
+      <span class="material-symbols-outlined text-sm">logout</span>
+      Logout
+    </button>
+  </div>
+</div>
+
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-6 space-y-12">
+<!-- Page Title & Hero Stats -->
+<section class="flex flex-col md:flex-row gap-8 items-start">
+<div class="flex-1">
+<h2 class="text-6xl font-black uppercase tracking-tighter leading-none mb-4">
+                    Efficiency<br/>Analytics
+                </h2>
+<p class="text-xl font-bold bg-secondary-container border-4 border-inverse-surface p-4 inline-block neo-shadow">
+          WEEK 00: 0% GAIN DETECTED
+                </p>
+</div>
+<div class="grid grid-cols-2 gap-4 w-full md:w-auto">
+<div class="bg-tertiary-container border-4 border-inverse-surface p-6 neo-shadow flex flex-col justify-center items-center">
+<span class="text-xs font-black uppercase tracking-widest mb-2">Total Saved</span>
+<span class="text-4xl font-black" id="dataTotalSaved">0.0h</span>
+</div>
+<div class="bg-primary-container border-4 border-inverse-surface p-6 neo-shadow flex flex-col justify-center items-center">
+<span class="text-xs font-black uppercase tracking-widest mb-2">Focus Score</span>
+<span class="text-4xl font-black" id="dataFocusScore">0%</span>
+</div>
+</div>
+</section>
+<!-- Main Content Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+<!-- Efficiency Gains Bar Chart -->
+<div class="md:col-span-8 bg-surface-container-lowest border-4 border-inverse-surface p-8 neo-shadow relative overflow-hidden">
+<div class="flex justify-between items-center mb-8">
+<h3 class="text-2xl font-black uppercase tracking-tight">Weekly Efficiency Gains</h3>
+<div class="flex gap-2">
+<span class="w-4 h-4 bg-primary-container border-2 border-inverse-surface"></span>
+<span class="text-xs font-bold uppercase">Actual</span>
+<span class="w-4 h-4 bg-tertiary-container border-2 border-inverse-surface ml-2"></span>
+<span class="text-xs font-bold uppercase">Target</span>
+</div>
+</div>
+<div class="flex items-end justify-between h-64 gap-2 md:gap-4" id="weeklyBars"></div>
+</div>
+<!-- Subject Distribution -->
+<div class="md:col-span-4 bg-inverse-surface text-surface border-4 border-inverse-surface p-8 neo-shadow flex flex-col">
+<h3 class="text-2xl font-black uppercase tracking-tight mb-4">Distribution</h3>
+<p class="text-xs font-bold uppercase opacity-80 mb-4">Set your target allocation:</p>
+<div class="flex-1 space-y-4 mb-4" id="distributionList"></div>
+<div class="space-y-3">
+<button id="aiSuggestBtn" class="w-full bg-secondary text-surface border-2 border-surface px-3 py-2 font-black uppercase text-xs neo-shadow active:translate-x-1 active:translate-y-1 active:shadow-none transition-all flex items-center justify-center gap-2">
+  <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+  AI Suggest
+</button>
+<button id="editDistributionBtn" class="w-full bg-primary-container text-on-background border-2 border-surface px-3 py-2 font-black uppercase text-xs neo-shadow active:translate-x-1 active:translate-y-1 active:shadow-none transition-all">Edit</button>
+<button id="saveDistributionBtn" class="w-full bg-tertiary-container text-surface border-2 border-surface px-3 py-2 font-black uppercase text-xs neo-shadow active:translate-x-1 active:translate-y-1 active:shadow-none transition-all hidden">Save Changes</button>
+</div>
+</div>
+<!-- Key Insights Section -->
+<div class="md:col-span-12">
+<h3 class="text-3xl font-black uppercase tracking-tighter mb-8 border-l-[12px] border-primary-container pl-4">Key Insights</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Insight Card 1 -->
+<div class="bg-surface-container border-4 border-inverse-surface p-6 neo-shadow hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all cursor-default">
+<div class="flex items-center gap-4 mb-4">
+<div class="bg-primary-container p-3 border-4 border-inverse-surface">
+<span class="material-symbols-outlined text-inverse-surface">speed</span>
+</div>
+<span class="text-lg font-black uppercase tracking-tight leading-tight">Efficiency<br/>Spike</span>
+</div>
+<p class="text-sm font-bold border-t-4 border-inverse-surface pt-4">
+              No efficiency data yet. Complete sessions to unlock time-window insights.
+                        </p>
+</div>
+<!-- Insight Card 2 -->
+<div class="bg-secondary-container border-4 border-inverse-surface p-6 neo-shadow hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all cursor-default">
+<div class="flex items-center gap-4 mb-4">
+<div class="bg-secondary p-3 border-4 border-inverse-surface">
+<span class="material-symbols-outlined text-surface">timer</span>
+</div>
+<span class="text-lg font-black uppercase tracking-tight leading-tight">Time<br/>Recovery</span>
+</div>
+<p class="text-sm font-bold border-t-4 border-inverse-surface pt-4">
+              No recovery data yet. Start logging sessions to calculate saved time.
+                        </p>
+</div>
+<!-- Insight Card 3 -->
+<div class="bg-tertiary-container border-4 border-inverse-surface p-6 neo-shadow hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all cursor-default relative overflow-hidden">
+<div class="absolute -right-4 -bottom-4 opacity-10">
+<span class="material-symbols-outlined text-9xl">analytics</span>
+</div>
+<div class="flex items-center gap-4 mb-4">
+<div class="bg-inverse-surface p-3 border-4 border-surface">
+<span class="material-symbols-outlined text-surface">trending_up</span>
+</div>
+<span class="text-lg font-black uppercase tracking-tight leading-tight">Predictive<br/>Burnout</span>
+</div>
+<p class="text-sm font-bold border-t-4 border-inverse-surface pt-4">
+              Burnout prediction unavailable. More sessions are needed for risk analysis.
+                        </p>
+</div>
+</div>
+</div>
+<!-- Comparison Grid -->
+<div class="md:col-span-12 bg-surface-container-highest border-4 border-inverse-surface p-10 neo-shadow">
+<div class="flex flex-col md:flex-row justify-between items-end gap-8">
+<div class="flex-1">
+<h4 class="text-4xl font-black uppercase leading-none mb-4">Velocity vs. Stability</h4>
+<p class="text-lg font-bold">No benchmark data yet. This section will populate after your first tracked sessions.</p>
+</div>
+<button id="generateReportBtn" class="bg-primary-container border-4 border-inverse-surface px-8 py-4 font-black uppercase text-xl neo-shadow active:translate-x-1 active:translate-y-1 active:shadow-none transition-all">
+                        Generate Full Report
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 px-2 bg-[#f6f6f6] border-t-4 border-[#0c0f0f]">
+<!-- DASH -->
+<a class="flex flex-col items-center justify-center text-[#2d2f2f] dark:text-[#f6f6f6] h-14 w-16 hover:bg-[#00e3fd] hover:text-[#0c0f0f] transition-colors active:scale-95" data-nav="dash" href="Dash.html">
+<span class="material-symbols-outlined text-2xl">grid_view</span>
+<span class="font-['Lexend'] font-bold text-[10px] uppercase tracking-widest mt-1">DASH</span>
+</a>
+<!-- PLAN -->
+<a class="flex flex-col items-center justify-center text-[#2d2f2f] dark:text-[#f6f6f6] h-14 w-16 hover:bg-[#00e3fd] hover:text-[#0c0f0f] transition-colors active:scale-95" data-nav="plan" href="Subjects.html">
+<span class="material-symbols-outlined text-2xl">event_note</span>
+<span class="font-['Lexend'] font-bold text-[10px] uppercase tracking-widest mt-1">PLAN</span>
+</a>
+<!-- FOCUS -->
+<a class="flex flex-col items-center justify-center text-[#2d2f2f] dark:text-[#f6f6f6] h-14 w-16 hover:bg-[#00e3fd] hover:text-[#0c0f0f] transition-colors active:scale-95" data-nav="focus" href="Timer.html">
+<span class="material-symbols-outlined text-2xl">timer</span>
+<span class="font-['Lexend'] font-bold text-[10px] uppercase tracking-widest mt-1">FOCUS</span>
+</a>
+<!-- DATA (ACTIVE) -->
+<a class="flex flex-col items-center justify-center text-[#2d2f2f] dark:text-[#f6f6f6] h-14 w-16 active:scale-95 transition-transform" data-nav="data" href="Data.html">
+<span class="material-symbols-outlined text-2xl">analytics</span>
+<span class="font-['Lexend'] font-bold text-[10px] uppercase tracking-widest mt-1">DATA</span>
+</a>
+</nav>
+<script src="nav.js"></script>
+<script src="profile.js"></script>
+<script>
+  (function () {
+    const days = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+    const distributionColors = ['bg-primary-container', 'bg-tertiary-container', 'bg-secondary', 'bg-surface', 'bg-primary-fixed', 'bg-secondary-container'];
+    const weeklyBarsEl = document.getElementById('weeklyBars');
+    const distributionListEl = document.getElementById('distributionList');
+    const totalSavedEl = document.getElementById('dataTotalSaved');
+    const focusScoreEl = document.getElementById('dataFocusScore');
+    const editDistributionBtn = document.getElementById('editDistributionBtn');
+    const saveDistributionBtn = document.getElementById('saveDistributionBtn');
+    
+    let isEditMode = false;
+    let currentDistributionData = [];
+
+    function renderZeroWeekly() {
+      if (!weeklyBarsEl) {
+        return;
+      }
+      weeklyBarsEl.innerHTML = '';
+      days.forEach((day) => {
+        const col = document.createElement('div');
+        col.className = 'flex-1 flex flex-col items-center gap-2';
+        col.innerHTML = `
+          <div class="w-full flex items-end justify-center gap-1 h-full">
+            <div class="w-1/2 bg-primary-container border-4 border-inverse-surface" style="height: 0px;"></div>
+            <div class="w-1/2 bg-tertiary-container border-4 border-inverse-surface" style="height: 0px;"></div>
+          </div>
+          <span class="font-black text-xs uppercase">${day}</span>
+        `;
+        weeklyBarsEl.appendChild(col);
+      });
+    }
+
+    function renderWeekly(weekly) {
+      if (!weeklyBarsEl) {
+        return;
+      }
+      const safeWeekly = Array.isArray(weekly) ? weekly : [];
+      const hoursByDay = new Map(safeWeekly.map((item) => [String(item.day || '').toUpperCase(), Number(item.hours || 0)]));
+      const maxHours = Math.max(0, ...days.map((day) => hoursByDay.get(day) || 0));
+
+      weeklyBarsEl.innerHTML = '';
+      days.forEach((day) => {
+        const h = Math.max(0, Number(hoursByDay.get(day) || 0));
+        const actualHeight = maxHours > 0 ? Math.round((h / maxHours) * 190) : 0;
+        const targetHeight = maxHours > 0 ? Math.max(actualHeight, 80) : 0;
+
+        const col = document.createElement('div');
+        col.className = 'flex-1 flex flex-col items-center gap-2';
+        col.innerHTML = `
+          <div class="w-full flex items-end justify-center gap-1 h-full">
+            <div class="w-1/2 bg-primary-container border-4 border-inverse-surface" style="height: ${actualHeight}px;"></div>
+            <div class="w-1/2 bg-tertiary-container border-4 border-inverse-surface" style="height: ${targetHeight}px;"></div>
+          </div>
+          <span class="font-black text-xs uppercase">${day}</span>
+        `;
+        weeklyBarsEl.appendChild(col);
+      });
+    }
+
+    function renderDistributionView(items) {
+      if (!distributionListEl) {
+        return;
+      }
+
+      const rows = Array.isArray(items) ? items.filter((it) => Number(it.percent || 0) > 0) : [];
+      if (!rows.length) {
+        distributionListEl.innerHTML = '<p class="text-sm font-bold uppercase opacity-80">No subjects configured yet.</p>';
+        return;
+      }
+
+      distributionListEl.innerHTML = '';
+      rows.forEach((item, index) => {
+        const percent = Math.max(0, Math.min(100, Math.round(Number(item.percent || 0))));
+        const colorClass = distributionColors[index % distributionColors.length];
+        const row = document.createElement('div');
+        row.className = 'space-y-2';
+        row.innerHTML = `
+          <div class="flex justify-between font-black text-sm uppercase">
+            <span>${item.subject || 'Subject'}</span>
+            <span>${percent}%</span>
+          </div>
+          <div class="w-full h-8 border-4 border-surface bg-surface-container">
+            <div class="${colorClass} h-full border-r-4 border-inverse-surface" style="width: ${percent}%;"></div>
+          </div>
+        `;
+        distributionListEl.appendChild(row);
+      });
+    }
+
+    function renderDistributionEditMode(items) {
+      if (!distributionListEl) {
+        return;
+      }
+
+      const rows = Array.isArray(items) ? items : [];
+      if (!rows.length) {
+        distributionListEl.innerHTML = '<p class="text-sm font-bold uppercase opacity-80">No subjects configured yet.</p>';
+        return;
+      }
+
+      distributionListEl.innerHTML = '';
+      rows.forEach((item, index) => {
+        const row = document.createElement('div');
+        row.className = 'space-y-2 pb-4 border-b border-surface';
+        const importanceLabel = item.importance ? `<span class="text-xs bg-secondary-container text-on-background px-2 py-1 rounded">IMP: ${item.importance}</span>` : '';
+        row.innerHTML = `
+          <div class="flex justify-between font-black text-sm uppercase items-center">
+            <div class="flex items-center gap-2">
+              <span>${item.subject || 'Subject'}</span>
+              ${importanceLabel}
+            </div>
+            <div class="flex items-center gap-2">
+              <input type="number" class="dist-input w-16 bg-surface text-on-surface border-2 border-surface px-2 py-1 font-black text-right" min="0" max="100" value="${Math.round(Number(item.percent || 0))}" data-subject="${item.subject}">
+              <span class="text-xs">%</span>
+            </div>
+          </div>
+        `;
+        distributionListEl.appendChild(row);
+      });
+
+      // Add event listeners to inputs
+      const inputs = distributionListEl.querySelectorAll('.dist-input');
+      inputs.forEach(input => {
+        input.addEventListener('change', () => {
+          const total = Array.from(inputs).reduce((sum, inp) => sum + (parseInt(inp.value) || 0), 0);
+          if (total !== 100) {
+            input.style.borderColor = '#b02500';
+          } else {
+            inputs.forEach(inp => inp.style.borderColor = '');
+          }
+        });
+      });
+    }
+
+    async function saveDistribution() {
+      if (!distributionListEl) return;
+      
+      const inputs = distributionListEl.querySelectorAll('.dist-input');
+      const newDistribution = Array.from(inputs).map(input => {
+        const subject = input.dataset.subject;
+        const percent = parseInt(input.value) || 0;
+        return { subject, percent: Math.max(0, Math.min(100, percent)) };
+      });
+
+      const total = newDistribution.reduce((sum, item) => sum + item.percent, 0);
+      if (total !== 100) {
+        alert('Distribution percentages must add up to 100%');
+        return;
+      }
+
+      try {
+        const response = await fetch('/api/distribution', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ distribution: newDistribution })
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Unable to save distribution');
+        }
+
+        currentDistributionData = newDistribution;
+        isEditMode = false;
+        editDistributionBtn.classList.remove('hidden');
+        saveDistributionBtn.classList.add('hidden');
+        renderDistributionView(currentDistributionData);
+        alert('Distribution saved successfully!');
+      } catch (error) {
+        alert('Error: ' + error.message);
+      }
+    }
+
+    editDistributionBtn.addEventListener('click', () => {
+      if (!isEditMode) {
+        isEditMode = true;
+        editDistributionBtn.classList.add('hidden');
+        saveDistributionBtn.classList.remove('hidden');
+        renderDistributionEditMode(currentDistributionData);
+      }
+    });
+
+    saveDistributionBtn.addEventListener('click', saveDistribution);
+
+    async function getAISuggestion() {
+      try {
+        const response = await fetch('/api/ai-distribution', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' }
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Unable to generate AI suggestion');
+        }
+
+        const data = await response.json();
+        const aiSuggestion = data.distribution;
+
+        // Enter edit mode with AI suggestion
+        isEditMode = true;
+        editDistributionBtn.classList.add('hidden');
+        saveDistributionBtn.classList.remove('hidden');
+        
+        currentDistributionData = aiSuggestion;
+        renderDistributionEditMode(aiSuggestion);
+        
+        alert('🤖 AI has suggested optimal distribution based on subject importance!');
+      } catch (error) {
+        alert('Error: ' + error.message);
+      }
+    }
+
+    const aiSuggestBtn = document.getElementById('aiSuggestBtn');
+    if (aiSuggestBtn) {
+      aiSuggestBtn.addEventListener('click', getAISuggestion);
+    }
+
+    function renderDistribution(items) {
+      currentDistributionData = Array.isArray(items) ? items : [];
+      if (isEditMode) {
+        renderDistributionEditMode(currentDistributionData);
+      } else {
+        renderDistributionView(currentDistributionData);
+      }
+    }
+
+    async function loadInsights() {
+      renderZeroWeekly();
+      renderDistribution([]);
+      if (totalSavedEl) {
+        totalSavedEl.textContent = '0.0h';
+      }
+      if (focusScoreEl) {
+        focusScoreEl.textContent = '0%';
+      }
+
+      try {
+        const response = await fetch('/api/insights');
+        const payload = await response.json();
+
+        if (!response.ok) {
+          throw new Error(payload.error || 'Unable to load insights');
+        }
+
+        const totalHoursWeek = Number(payload.total_hours_week || 0);
+        if (totalSavedEl) {
+          totalSavedEl.textContent = `${totalHoursWeek.toFixed(1)}h`;
+        }
+
+        const focus = totalHoursWeek > 0 ? Math.min(100, Math.round((totalHoursWeek / 20) * 100)) : 0;
+        if (focusScoreEl) {
+          focusScoreEl.textContent = `${focus}%`;
+        }
+
+        renderWeekly(payload.weekly);
+        // Use user-configured distribution if available, otherwise use actual
+        const distributionToUse = payload.user_distribution && payload.user_distribution.length > 0 
+          ? payload.user_distribution 
+          : payload.distribution;
+        renderDistribution(distributionToUse);
+      } catch {
+        renderZeroWeekly();
+        renderDistribution([]);
+      }
+    }
+
+    loadInsights();
+
+    // Generate Full Report button handler
+    const generateReportBtn = document.getElementById('generateReportBtn');
+    if (generateReportBtn) {
+      generateReportBtn.addEventListener('click', () => {
+        alert('No data available');
+      });
+    }
+  })();
+</script>
+</body></html>

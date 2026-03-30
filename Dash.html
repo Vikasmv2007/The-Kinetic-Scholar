@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Kinetic Scholar - Smart Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary-fixed": "#6d0030",
+              "on-secondary-container": "#900042",
+              "primary": "#5b6000",
+              "tertiary-container": "#00e3fd",
+              "surface-container-high": "#e1e3e3",
+              "on-primary-container": "#575b00",
+              "background": "#f6f6f6",
+              "surface-container": "#e7e8e8",
+              "on-surface-variant": "#5a5c5c",
+              "on-primary-fixed": "#444800",
+              "tertiary-fixed-dim": "#00d4ec",
+              "primary-fixed": "#ebf500",
+              "surface-container-highest": "#dbdddd",
+              "tertiary-fixed": "#00e3fd",
+              "on-background": "#2d2f2f",
+              "surface-dim": "#d3d5d5",
+              "inverse-primary": "#f3fe00",
+              "surface": "#f6f6f6",
+              "primary-fixed-dim": "#dce600",
+              "surface-tint": "#5b6000",
+              "secondary-fixed": "#ffc1ce",
+              "error-container": "#f95630",
+              "on-tertiary-fixed-variant": "#005762",
+              "surface-container-lowest": "#ffffff",
+              "on-secondary": "#ffeff1",
+              "inverse-surface": "#0c0f0f",
+              "surface-variant": "#dbdddd",
+              "tertiary": "#006571",
+              "on-primary-fixed-variant": "#616500",
+              "on-secondary-fixed-variant": "#a1004b",
+              "primary-container": "#ebf500",
+              "on-tertiary-fixed": "#003840",
+              "on-tertiary-container": "#004d57",
+              "on-tertiary": "#d8f8ff",
+              "error-dim": "#b92902",
+              "outline": "#767777",
+              "secondary-container": "#ffc1ce",
+              "error": "#b02500",
+              "on-error": "#ffefec",
+              "inverse-on-surface": "#9c9d9d",
+              "surface-bright": "#f6f6f6",
+              "primary-dim": "#4f5300",
+              "on-primary": "#f2fd00",
+              "outline-variant": "#acadad",
+              "surface-container-low": "#f0f1f1",
+              "on-error-container": "#520c00",
+              "tertiary-dim": "#005863",
+              "secondary": "#b60055",
+              "on-surface": "#2d2f2f",
+              "secondary-fixed-dim": "#ffadc0",
+              "secondary-dim": "#a0004a"
+            },
+            fontFamily: {
+              "headline": ["Lexend"],
+              "body": ["Lexend"],
+              "label": ["Lexend"]
+            },
+            borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 700, 'GRAD' 0, 'opsz' 48;
+        }
+        body {
+            font-family: 'Lexend', sans-serif;
+            background-color: #f6f6f6;
+            color: #2d2f2f;
+        }
+    .nav-active {
+      background: #ebf500 !important;
+      color: #0c0f0f !important;
+      border: 2px solid #0c0f0f !important;
+      box-shadow: 2px 2px 0 #0c0f0f !important;
+    }
+    .splash-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background: rgba(12, 15, 15, 0.72);
+    }
+    .splash-overlay.open {
+      display: flex;
+    }
+    .splash-card {
+      width: min(680px, 100%);
+      background: #ffffff;
+      border: 4px solid #0c0f0f;
+      box-shadow: 8px 8px 0 #0c0f0f;
+      padding: 18px;
+    }
+    .splash-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 120px;
+      gap: 8px;
+    }
+    .splash-row input {
+      width: 100%;
+      border: 3px solid #0c0f0f;
+      padding: 10px;
+      font-family: 'Lexend', sans-serif;
+      font-weight: 700;
+    }
+    .splash-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .splash-btn {
+      border: 3px solid #0c0f0f;
+      padding: 10px 12px;
+      font-family: 'Lexend', sans-serif;
+      text-transform: uppercase;
+      font-weight: 900;
+      cursor: pointer;
+    }
+    .splash-btn-dark {
+      background: #0c0f0f;
+      color: #ffffff;
+    }
+    .splash-btn-light {
+      background: #ebf500;
+      color: #0c0f0f;
+    }
+    .splash-msg {
+      min-height: 20px;
+      margin: 0;
+      font-size: 12px;
+      font-weight: 700;
+      color: #5a5c5c;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    @media (max-width: 640px) {
+      .splash-row,
+      .splash-actions {
+        grid-template-columns: 1fr;
+      }
+    }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background selection:bg-primary-container selection:text-on-background">
+<div class="splash-overlay" id="dashSplashOverlay" role="dialog" aria-modal="true" aria-labelledby="dashSplashTitle">
+<div class="splash-card">
+<p class="font-black text-[11px] uppercase tracking-[0.18em]">Welcome</p>
+<h2 class="font-black text-3xl uppercase tracking-tight mt-2" id="dashSplashTitle">Set your profile</h2>
+<p class="font-bold text-sm mt-1 mb-4">Enter username and subjects with importance from 1 to 10.</p>
+<form class="space-y-3" id="dashSplashForm">
+<div>
+<label class="block text-[11px] font-black uppercase tracking-[0.14em] mb-2" for="dashSplashUsername">Username</label>
+<input class="w-full border-4 border-[#0c0f0f] px-3 py-2 font-bold" id="dashSplashUsername" placeholder="Your name" required type="text"/>
+</div>
+<div class="space-y-2" id="dashSplashSubjects"></div>
+<div class="splash-actions">
+<button class="splash-btn splash-btn-light" id="dashSplashAddSubject" type="button">+ Add Subject</button>
+<button class="splash-btn splash-btn-dark" id="dashSplashSave" type="submit">Save And Continue</button>
+</div>
+<label class="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.08em]">
+<input id="dashSplashResetData" type="checkbox"/>
+Reset demo data to zero
+</label>
+<p class="splash-msg" id="dashSplashMessage"></p>
+</form>
+</div>
+</div>
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-20 bg-[#f6f6f6] dark:bg-[#0c0f0f] border-b-4 border-[#0c0f0f] shadow-[4px_4px_0px_0px_#0c0f0f]">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-3xl" data-icon="bolt">bolt</span>
+<h1 class="font-['Lexend'] font-extrabold tracking-tighter uppercase text-2xl text-[#2d2f2f] dark:text-[#f6f6f6]">The Kinetic Scholar</h1>
+</div>
+<div class="flex items-center gap-4 relative">
+<button class="w-12 h-12 border-4 border-[#0c0f0f] bg-secondary shadow-[2px_2px_0px_0px_#0c0f0f] flex items-center justify-center hover:translate-x-0.5 hover:translate-y-0.5 transition-transform" id="profileBtn" title="Profile">
+<span class="material-symbols-outlined text-surface" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+</button>
+
+<!-- Profile Dropdown -->
+<div id="profileDropdown" class="hidden absolute top-20 right-0 w-64 bg-surface border-4 border-inverse-surface shadow-[4px_4px_0px_0px_#0c0f0f] z-40">
+  <div class="p-4 border-b-4 border-inverse-surface bg-primary-container">
+    <p class="text-xs font-black uppercase tracking-widest opacity-70" id="profileStatus">Not logged in</p>
+    <h3 class="text-lg font-black uppercase" data-menu="username">Guest</h3>
+  </div>
+  
+  <div class="divide-y-4 divide-inverse-surface">
+    <button id="loginBtn" class="w-full p-4 text-left font-black uppercase hover:bg-surface-container transition-colors flex items-center gap-2">
+      <span class="material-symbols-outlined text-sm">login</span>
+      Login
+    </button>
+    
+    <button data-action="edit" class="w-full p-4 text-left font-black uppercase hover:bg-surface-container transition-colors flex items-center gap-2 hidden" id="editBtn">
+      <span class="material-symbols-outlined text-sm">edit</span>
+      Edit Profile
+    </button>
+    
+    <button data-action="reset" class="w-full p-4 text-left font-black uppercase hover:bg-surface-container transition-colors flex items-center gap-2 hidden" id="resetBtn">
+      <span class="material-symbols-outlined text-sm">restart_alt</span>
+      Reset Profile
+    </button>
+    
+    <button data-action="logout" class="w-full p-4 text-left font-black uppercase text-error hover:bg-error-container transition-colors flex items-center gap-2 hidden" id="logoutBtn">
+      <span class="material-symbols-outlined text-sm">logout</span>
+      Logout
+    </button>
+  </div>
+</div>
+</div>
+</header>
+<main class="pt-32 pb-32 px-6 max-w-7xl mx-auto">
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+<!-- Left Column: Progress & Focus -->
+<div class="md:col-span-7 flex flex-col gap-8">
+<!-- Current Progress Card -->
+<section class="bg-surface-container-lowest border-4 border-inverse-surface p-8 shadow-[8px_8px_0px_0px_#0c0f0f]">
+<div class="flex justify-between items-end mb-6">
+<h2 class="text-4xl font-black uppercase tracking-tighter leading-none">Current Progress</h2>
+<span class="text-2xl font-black bg-primary-container px-3 py-1 border-4 border-inverse-surface">0%</span>
+</div>
+<p class="text-lg font-bold mb-8 opacity-80 uppercase tracking-wide">No active semester data yet</p>
+<div class="relative h-12 w-full border-4 border-inverse-surface bg-surface-container mb-4">
+<div class="absolute top-0 left-0 h-full bg-primary-fixed border-r-4 border-inverse-surface" style="width: 0%"></div>
+</div>
+<div class="grid grid-cols-3 gap-4 mt-8">
+<div class="border-4 border-inverse-surface p-4 bg-surface-container-low">
+<span class="block text-xs font-black uppercase tracking-widest mb-1">Modules</span>
+<span class="text-2xl font-black">0/0</span>
+</div>
+<div class="border-4 border-inverse-surface p-4 bg-surface-container-low">
+<span class="block text-xs font-black uppercase tracking-widest mb-1">Hours</span>
+<span class="text-2xl font-black">0.0</span>
+</div>
+<div class="border-4 border-inverse-surface p-4 bg-secondary-container">
+<span class="block text-xs font-black uppercase tracking-widest mb-1">Streak</span>
+<span class="text-2xl font-black">0d</span>
+</div>
+</div>
+</section>
+<!-- Subject Overview Section -->
+<section class="bg-primary-container border-4 border-inverse-surface p-8 shadow-[8px_8px_0px_0px_#0c0f0f]">
+<div class="flex items-center gap-2 mb-6 border-b-4 border-inverse-surface pb-4">
+<span class="material-symbols-outlined text-3xl" data-icon="library_books">library_books</span>
+<h2 class="text-2xl font-black uppercase tracking-tight">Subject Overview</h2>
+</div>
+<div id="subjectOverviewList" class="space-y-3">
+<div class="border-4 border-inverse-surface p-4 bg-surface-container-lowest text-center">
+<p class="text-sm font-bold upper case">Login to view your subjects</p>
+</div>
+</div>
+</section>
+<!-- Next Session Section -->
+<section class="bg-tertiary-container border-4 border-inverse-surface p-8 shadow-[8px_8px_0px_0px_#0c0f0f] relative overflow-hidden">
+<!-- Background Decoration -->
+<span class="material-symbols-outlined absolute -right-8 -top-8 text-[12rem] opacity-10 rotate-12" data-icon="timer">timer</span>
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined font-black" data-icon="rocket_launch">rocket_launch</span>
+<h2 class="text-xl font-black uppercase tracking-widest">Next Session</h2>
+</div>
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+<div>
+<h3 class="text-5xl font-black uppercase tracking-tighter mb-2">No Session Yet</h3>
+<div class="flex items-center gap-4">
+<span class="text-lg font-bold border-2 border-inverse-surface px-3 py-1 bg-surface-container-lowest">0 MINS</span>
+<span class="text-lg font-bold">Start your first focus run</span>
+</div>
+</div>
+<button class="bg-primary-container text-on-background border-4 border-inverse-surface px-8 py-6 font-black text-2xl uppercase shadow-[6px_6px_0px_0px_#0c0f0f] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[4px_4px_0px_0px_#0c0f0f] active:translate-x-[6px] active:translate-y-[6px] active:shadow-none transition-all flex items-center gap-3">
+                                Start Focus
+                                <span class="material-symbols-outlined text-3xl" data-icon="play_arrow" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Schedule & Tasks -->
+<div class="md:col-span-5 flex flex-col gap-8">
+<!-- Daily Adaptive Schedule -->
+<section class="bg-surface-container-high border-4 border-inverse-surface p-6 shadow-[8px_8px_0px_0px_#0c0f0f]">
+<div class="flex items-center justify-between mb-8 border-b-4 border-inverse-surface pb-4">
+<h2 class="text-2xl font-black uppercase tracking-tight">Today's Flow</h2>
+<span class="font-bold text-sm bg-inverse-surface text-white px-2 py-1 uppercase">No Data</span>
+</div>
+<div class="border-4 border-inverse-surface bg-surface-container-lowest p-4 mb-4">
+<p class="text-xs font-black uppercase tracking-[0.14em] mb-3">AI Plan Builder</p>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+<label class="text-xs font-black uppercase tracking-[0.08em]">
+Day Type
+<select class="w-full mt-1 border-2 border-inverse-surface p-2 font-bold" id="planDayType">
+<option value="normal">Normal Day</option>
+<option value="exam">Exam Day</option>
+</select>
+</label>
+<label class="text-xs font-black uppercase tracking-[0.08em]">
+Study Time (minutes)
+<input class="w-full mt-1 border-2 border-inverse-surface p-2 font-bold" id="planMinutes" max="900" min="60" type="number" value="360"/>
+</label>
+<label class="text-xs font-black uppercase tracking-[0.08em]">
+Exam Date (optional)
+<input class="w-full mt-1 border-2 border-inverse-surface p-2 font-bold" id="planExamDate" type="date"/>
+</label>
+</div>
+<div class="mt-3 flex gap-3 flex-wrap">
+<button class="border-4 border-inverse-surface bg-primary-container px-4 py-2 font-black uppercase text-xs" id="generateAiPlanBtn" type="button">Generate AI Plan</button>
+<span class="text-xs font-bold uppercase tracking-[0.08em]" id="aiPlanStatus">No plan generated</span>
+</div>
+</div>
+<div class="space-y-4" id="studyFlowList"></div>
+</section>
+<!-- Quick Stats / Insights -->
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-error-container border-4 border-inverse-surface p-4">
+<span class="material-symbols-outlined mb-2 block" data-icon="warning">warning</span>
+<span class="text-xs font-black uppercase block mb-1">Overdue</span>
+<span class="text-3xl font-black">00</span>
+</div>
+<div class="bg-tertiary-fixed border-4 border-inverse-surface p-4">
+<span class="material-symbols-outlined mb-2 block" data-icon="bolt">bolt</span>
+<span class="text-xs font-black uppercase block mb-1">Focus Score</span>
+<span class="text-3xl font-black">0.0</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Featured Resource / Tip Section -->
+<section class="mt-12 grid md:grid-cols-2 gap-8">
+<div class="relative group border-4 border-inverse-surface overflow-hidden h-64 shadow-[8px_8px_0px_0px_#0c0f0f]">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="modern brutalist library interior with massive concrete pillars, large glass windows, and minimalist study desks" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvMoU4BXMN7rZD51HI8ZNREm65siHFtfD5AADEwqWDLbysRoYX0DhxbMaoGKu8IgbJRCcBtpQX0vNsGds7rg7ZfQ57pMffRJM8BzRa_8xHgqc-xzWZYa7m0Uk4BidIhIMUQ8SC0aNfd8Gx9oDsOh4k46V0GYyVbrPEYk2ME37MFJS-jS2HGkrB6t0l7ciZp6gNWViDEcYr__vU410L-xaIwsWhONCWPrqTqhHwvvXuXQtizCBvtSBj72aox7K1rH4oshNDe60Mx-45"/>
+<div class="absolute inset-0 bg-gradient-to-t from-inverse-surface to-transparent opacity-80"></div>
+<div class="absolute bottom-0 left-0 p-6 text-white">
+<span class="bg-secondary px-3 py-1 font-black uppercase text-xs mb-2 inline-block">Pro Tip</span>
+<h3 class="text-2xl font-black uppercase tracking-tighter">The Pomodoro Paradox</h3>
+<p class="text-sm font-bold opacity-80">How skipping breaks actually destroys your long-term retention.</p>
+</div>
+</div>
+<div class="bg-surface-container border-4 border-inverse-surface p-8 flex flex-col justify-center shadow-[8px_8px_0px_0px_#0c0f0f]">
+<h3 class="text-3xl font-black uppercase tracking-tighter mb-4">Daily Challenge</h3>
+<p class="text-lg font-bold mb-6 opacity-50">Coming soon...</p>
+<div class="flex gap-4">
+<button class="bg-inverse-surface text-white border-4 border-inverse-surface px-6 py-2 font-black uppercase text-sm hover:bg-transparent hover:text-on-background transition-colors" disabled>Accept +50 XP</button>
+<button class="border-4 border-inverse-surface px-6 py-2 font-black uppercase text-sm hover:bg-surface-container-highest transition-colors" disabled>Skip</button>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 px-2 bg-[#f6f6f6] border-t-4 border-[#0c0f0f]">
+<!-- DASH (Active) -->
+<a class="flex flex-col items-center justify-center text-[#2d2f2f] dark:text-[#f6f6f6] h-14 w-16 transition-all" data-nav="dash" href="Dash.html">
+<span class="material-symbols-outlined" data-icon="grid_view" style="font-variation-settings: 'FILL' 1;">grid_view</span>
+<span class="font-['Lexend'] font-bold text-[10px] uppercase tracking-widest mt-0.5">DASH</span>
+</a>
+<!-- PLAN -->
+<a class="flex flex-col items-center justify-center text-[#2d2f2f] dark:text-[#f6f6f6] h-14 w-16 hover:bg-[#00e3fd] hover:text-[#0c0f0f] transition-colors active:scale-95" data-nav="plan" href="Subjects.html">
+<span class="material-symbols-outlined" data-icon="event_note">event_note</span>
+<span class="font-['Lexend'] font-bold text-[10px] uppercase tracking-widest mt-0.5">PLAN</span>
+</a>
+<!-- FOCUS -->
+<a class="flex flex-col items-center justify-center text-[#2d2f2f] dark:text-[#f6f6f6] h-14 w-16 hover:bg-[#00e3fd] hover:text-[#0c0f0f] transition-colors active:scale-95" data-nav="focus" href="Timer.html">
+<span class="material-symbols-outlined" data-icon="timer">timer</span>
+<span class="font-['Lexend'] font-bold text-[10px] uppercase tracking-widest mt-0.5">FOCUS</span>
+</a>
+<!-- DATA -->
+<a class="flex flex-col items-center justify-center text-[#2d2f2f] dark:text-[#f6f6f6] h-14 w-16 hover:bg-[#00e3fd] hover:text-[#0c0f0f] transition-colors active:scale-95" data-nav="data" href="Data.html">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-['Lexend'] font-bold text-[10px] uppercase tracking-widest mt-0.5">DATA</span>
+</a>
+</nav>
+<!-- Contextual FAB (Only on Dashboard/Home) -->
+<button class="fixed bottom-24 right-6 w-16 h-16 bg-primary-container border-4 border-inverse-surface flex items-center justify-center shadow-[6px_6px_0px_0px_#0c0f0f] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all z-40" id="manageSubjectsBtn" title="Manage subjects">
+<span class="material-symbols-outlined text-4xl" data-icon="add">add</span>
+</button>
+<script src="nav.js"></script>
+<script src="profile.js"></script>
+<script>
+  (function () {
+    const STORAGE_KEY = 'dash_splash_profile_v1';
+    const overlay = document.getElementById('dashSplashOverlay');
+    const form = document.getElementById('dashSplashForm');
+    const usernameInput = document.getElementById('dashSplashUsername');
+    const subjectsWrap = document.getElementById('dashSplashSubjects');
+    const addSubjectBtn = document.getElementById('dashSplashAddSubject');
+    const manageSubjectsBtn = document.getElementById('manageSubjectsBtn');
+    const openProfileBtn = document.getElementById('openProfileBtn');
+    const resetDataCheckbox = document.getElementById('dashSplashResetData');
+    const messageEl = document.getElementById('dashSplashMessage');
+    const planDayType = document.getElementById('planDayType');
+    const planMinutes = document.getElementById('planMinutes');
+    const planExamDate = document.getElementById('planExamDate');
+    const generateAiPlanBtn = document.getElementById('generateAiPlanBtn');
+    const aiPlanStatus = document.getElementById('aiPlanStatus');
+    const studyFlowList = document.getElementById('studyFlowList');
+
+    function buildRow(subject = '', importance = 5) {
+      const row = document.createElement('div');
+      row.className = 'splash-row';
+      row.innerHTML = '<input class="splash-subject" type="text" placeholder="Subject" required>' +
+        '<input class="splash-importance" type="number" min="1" max="10" value="5" required>';
+      row.querySelector('.splash-subject').value = subject;
+      row.querySelector('.splash-importance').value = String(importance);
+      return row;
+    }
+
+    function showMessage(text, isError = false) {
+      messageEl.textContent = text;
+      messageEl.style.color = isError ? '#b02500' : '#5a5c5c';
+    }
+
+    function collectSubjects() {
+      const rows = Array.from(subjectsWrap.querySelectorAll('.splash-row'));
+      return rows
+        .map((row) => {
+          const subject = row.querySelector('.splash-subject').value.trim();
+          const importance = parseInt(row.querySelector('.splash-importance').value, 10);
+          return { subject, importance };
+        })
+        .filter((item) => item.subject.length > 0)
+        .map((item) => ({
+          subject: item.subject,
+          importance: Math.max(1, Math.min(10, Number.isNaN(item.importance) ? 5 : item.importance))
+        }));
+    }
+
+    function openSplash() {
+      overlay.classList.add('open');
+      showMessage('');
+    }
+
+    function closeSplash() {
+      overlay.classList.remove('open');
+    }
+
+    function initRows() {
+      subjectsWrap.innerHTML = '';
+      subjectsWrap.appendChild(buildRow('', 5));
+      subjectsWrap.appendChild(buildRow('', 5));
+    }
+
+    function loadSavedProfile() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : null;
+      } catch {
+        return null;
+      }
+    }
+
+    function populateFromProfile(profile) {
+      usernameInput.value = profile?.username || '';
+      subjectsWrap.innerHTML = '';
+      const items = Array.isArray(profile?.subjects) ? profile.subjects : [];
+      if (!items.length) {
+        initRows();
+        return;
+      }
+      items.forEach((item) => {
+        subjectsWrap.appendChild(buildRow(item.subject || '', item.importance || 5));
+      });
+    }
+
+    function renderStudyFlow(items) {
+      if (!studyFlowList) {
+        return;
+      }
+
+      studyFlowList.innerHTML = '';
+      if (!Array.isArray(items) || !items.length) {
+        studyFlowList.innerHTML = '<div class="border-4 border-inverse-surface p-4 bg-surface-container-lowest"><p class="text-sm font-bold">No flow yet. Generate a plan based on your profile.</p></div>';
+        return;
+      }
+
+      items.forEach((item) => {
+        const row = document.createElement('div');
+        row.className = 'flex gap-4 items-start';
+        row.innerHTML = `
+          <div class="flex flex-col items-center min-w-[60px]">
+            <span class="font-black text-lg">${item.time || '--:--'}</span>
+            <div class="w-1 h-full bg-inverse-surface min-h-[40px]"></div>
+          </div>
+          <div class="flex-1 border-4 border-inverse-surface p-4 bg-surface-container-lowest">
+            <div class="flex justify-between items-start mb-2">
+              <h4 class="font-black uppercase">${item.type || 'Study'}</h4>
+              <span class="bg-primary-container border-2 border-inverse-surface px-2 py-0.5 text-[10px] font-black uppercase">${item.duration || ''}</span>
+            </div>
+            <p class="text-sm font-bold">${item.subject || ''}</p>
+            <p class="text-xs font-bold opacity-70 mt-1 uppercase">${item.note || ''}</p>
+          </div>
+        `;
+        studyFlowList.appendChild(row);
+      });
+    }
+
+    async function generateAiPlan() {
+      const profile = loadSavedProfile();
+      const subjects = Array.isArray(profile?.subjects) ? profile.subjects : [];
+
+      if (!subjects.length) {
+        aiPlanStatus.textContent = 'Add subjects in profile first';
+        return;
+      }
+
+      aiPlanStatus.textContent = 'Generating...';
+
+      try {
+        const response = await fetch('/api/ai-plan', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            subjects,
+            day_type: planDayType.value,
+            total_minutes: Number(planMinutes.value || 360),
+            exam_date: planExamDate.value || null
+          })
+        });
+
+        const payload = await response.json();
+        if (!response.ok) {
+          throw new Error(payload.error || 'Unable to generate plan.');
+        }
+
+        renderStudyFlow(payload.study_flow || []);
+        aiPlanStatus.textContent = payload?.meta?.message || 'Plan generated';
+      } catch (err) {
+        aiPlanStatus.textContent = err.message || 'Plan generation failed';
+      }
+    }
+
+    addSubjectBtn.addEventListener('click', function () {
+      subjectsWrap.appendChild(buildRow('', 5));
+    });
+
+    function updateDropdownStatus() {
+      const hasProfile = Boolean(localStorage.getItem(STORAGE_KEY));
+      const profileStatus = document.getElementById('profileStatus');
+      const usernameDisplay = document.querySelector('[data-menu="username"]');
+      const loginBtn = document.getElementById('loginBtn');
+      const editBtn = document.getElementById('editBtn');
+      const resetBtn = document.getElementById('resetBtn');
+      const logoutBtn = document.getElementById('logoutBtn');
+      
+      if (hasProfile) {
+        const profile = loadSavedProfile();
+        profileStatus.textContent = 'Logged in as';
+        if (usernameDisplay) {
+          usernameDisplay.textContent = profile?.username || 'User';
+        }
+        loginBtn.classList.add('hidden');
+        editBtn.classList.remove('hidden');
+        resetBtn.classList.remove('hidden');
+        logoutBtn.classList.remove('hidden');
+      } else {
+        profileStatus.textContent = 'Not logged in';
+        if (usernameDisplay) {
+          usernameDisplay.textContent = 'Guest';
+        }
+        loginBtn.classList.remove('hidden');
+        editBtn.classList.add('hidden');
+        resetBtn.classList.add('hidden');
+        logoutBtn.classList.add('hidden');
+      }
+    }
+
+    form.addEventListener('submit', async function (event) {
+      event.preventDefault();
+      const username = usernameInput.value.trim();
+      const subjects = collectSubjects();
+
+      if (!username) {
+        showMessage('Please enter a username.', true);
+        return;
+      }
+
+      if (!subjects.length) {
+        showMessage('Please add at least one subject.', true);
+        return;
+      }
+
+      showMessage('Saving profile...');
+
+      try {
+        const response = await fetch('/api/splash-profile', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, subjects, reset_local_data: Boolean(resetDataCheckbox?.checked) })
+        });
+
+        const payload = await response.json();
+        if (!response.ok) {
+          throw new Error(payload.error || 'Unable to save profile.');
+        }
+
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({ username, subjects }));
+        showMessage('Profile saved.');
+        updateDropdownStatus();
+        renderSubjectOverview();
+        closeSplash();
+      } catch (err) {
+        showMessage(err.message || 'Unable to save profile.', true);
+      }
+    });
+
+
+    const hasProfile = Boolean(localStorage.getItem(STORAGE_KEY));
+    if (hasProfile) {
+      const profile = loadSavedProfile();
+      populateFromProfile(profile);
+      if (resetDataCheckbox) {
+        resetDataCheckbox.checked = false;
+      }
+    } else {
+      initRows();
+      if (resetDataCheckbox) {
+        resetDataCheckbox.checked = true;
+      }
+    }
+
+    // Setup login button
+    const loginBtn = document.getElementById('loginBtn');
+    if (loginBtn) {
+      loginBtn.addEventListener('click', function () {
+        const profile = loadSavedProfile();
+        if (profile) {
+          populateFromProfile(profile);
+        } else {
+          initRows();
+        }
+        if (resetDataCheckbox) {
+          resetDataCheckbox.checked = !hasProfile;
+        }
+        openSplash();
+      });
+    }
+
+    if (manageSubjectsBtn) {
+      manageSubjectsBtn.addEventListener('click', function () {
+        const profile = loadSavedProfile();
+        populateFromProfile(profile);
+        if (resetDataCheckbox) {
+          resetDataCheckbox.checked = false;
+        }
+        openSplash();
+      });
+    }
+
+    if (openProfileBtn) {
+      openProfileBtn.addEventListener('click', function () {
+        const profile = loadSavedProfile();
+        populateFromProfile(profile);
+        if (resetDataCheckbox) {
+          resetDataCheckbox.checked = false;
+        }
+        openSplash();
+      });
+    }
+
+    if (generateAiPlanBtn) {
+      generateAiPlanBtn.addEventListener('click', generateAiPlan);
+    }
+
+    function renderSubjectOverview() {
+      const profile = loadSavedProfile();
+      const overviewList = document.getElementById('subjectOverviewList');
+      
+      if (!overviewList) return;
+      
+      if (!profile || !Array.isArray(profile.subjects) || profile.subjects.length === 0) {
+        overviewList.innerHTML = '<div class="border-4 border-inverse-surface p-4 bg-surface-container-lowest text-center"><p class="text-sm font-bold">Login to view your subjects</p></div>';
+        return;
+      }
+      
+      overviewList.innerHTML = '';
+      profile.subjects.forEach((subject) => {
+        const row = document.createElement('div');
+        row.className = 'flex items-center justify-between bg-surface-container-lowest border-4 border-inverse-surface p-4 hover:bg-surface-container transition-colors';
+        
+        const importance = subject.importance || 5;
+        const importanceColor = importance >= 8 ? 'bg-error-container' : importance >= 5 ? 'bg-tertiary-container' : 'bg-tertiary-fixed';
+        
+        row.innerHTML = `
+          <div class="flex-1">
+            <h4 class="font-black uppercase text-sm mb-1">${subject.subject || 'Subject'}</h4>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold uppercase opacity-70">Importance:</span>
+              <div class="flex gap-1">
+                ${Array.from({ length: 10 }).map((_, i) => 
+                  `<div class="w-2 h-2 border border-inverse-surface ${i < importance ? 'bg-inverse-surface' : 'bg-surface'}"></div>`
+                ).join('')}
+              </div>
+            </div>
+          </div>
+          <div class="text-right">
+            <span class="font-black text-lg">${importance}/10</span>
+          </div>
+        `;
+        overviewList.appendChild(row);
+      });
+    }
+
+    // Initialize dropdown status
+    updateDropdownStatus();
+    renderSubjectOverview();
+    renderStudyFlow([]);
+  })();
+</script>
+</body></html>
